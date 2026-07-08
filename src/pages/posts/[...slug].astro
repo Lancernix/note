@@ -1,0 +1,80 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Breadcrumbs from '../../components/content/Breadcrumbs.astro';
+import PostMeta from '../../components/content/PostMeta.astro';
+import PostLicense from '../../components/content/PostLicense.astro';
+import PostNavigation from '../../components/content/PostNavigation.astro';
+import RelatedPosts from '../../components/content/RelatedPosts.astro';
+import { contentTypes } from '../../config/content';
+import { getLocalePath } from '../../config/i18n';
+import { siteConfig } from '../../config/site';
+import { adjacentEntries, getLocalizedEntries, entrySlug, relatedPosts, seriesPosts } from '../../lib/content/entries';
+import AudioPlayer from '../../components/AudioPlayer.astro';
+import CopyMdButton from '../../components/CopyMdButton.astro';
+
+export async function getStaticPaths() {
+  const posts = await getLocalizedEntries('posts', 'zh-cn');
+  return posts.map((entry) => ({ params: { slug: entrySlug(entry as any) }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+const posts = await getLocalizedEntries('posts', 'zh-cn');
+const adjacent = adjacentEntries<'posts'>(posts, entry);
+const related = relatedPosts(posts, entry, siteConfig.post.relatedCount);
+
+const seriesEntries = entry.data.series?.length ? await getLocalizedEntries('series', 'zh-cn') : [];
+const seriesGroups = (entry.data.series ?? [])
+  .map((slug: string) => {
+    const seriesEntry = seriesEntries.find((s) => entrySlug(s as any) === slug);
+    return seriesEntry ? { seriesEntry, posts: seriesPosts(posts, slug) } : undefined;
+  })
+  .filter((group): group is { seriesEntry: any; posts: any[] } => Boolean(group));
+
+const siteUrl = process.env.ASTRO_SITE || 'https://note.lancernix.space';
+const canonicalUrl = `${siteUrl}${getLocalePath('zh-cn', `/posts/${entrySlug(entry)}/`)}`;
+const fm = [
+  '---',
+  `title: ${JSON.stringify(entry.data.title)}`,
+  entry.data.pubDate ? `date: ${entry.data.pubDate.toISOString().slice(0, 10)}` : '',
+  entry.data.description ? `description: ${JSON.stringify(entry.data.description)}` : '',
+  `tags: [${entry.data.tags.map((t) => JSON.stringify(t)).join(', ')}]`,
+  `lang: zh-cn`,
+  '---'
+].filter(Boolean).join('\n');
+const rawBody = `${fm}\n\n${entry.body}`;
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description} locale="zh-cn" headings={headings} toc={entry.data.toc ?? 'center'} comments={entry.data.comments}>
+  <Breadcrumbs
+    locale="zh-cn"
+    items={[
+      { label: siteConfig.shortName, href: getLocalePath('zh-cn', '/'), icon: 'lucide:home' },
+      { label: contentTypes.posts.label.en, href: getLocalePath('zh-cn', contentTypes.posts.path), icon: contentTypes.posts.icon },
+      { label: entry.data.title, icon: 'lucide:file-text' }
+    ]}
+  />
+  {entry.data.cover && (
+    <div class="mb-8 overflow-hidden rounded-[var(--radius-card)]">
+      <img src={entry.data.cover} alt={entry.data.title} class="aspect-video max-h-[60vh] w-full object-cover" loading="eager" />
+    </div>
+  )}
+  <PostMeta
+    title={entry.data.title}
+    description={entry.data.description}
+    date={entry.data.pubDate}
+    locale="zh-cn"
+    tags={entry.data.tags}
+    seriesGroups={seriesGroups}
+    current={entry}
+  />
+  <article class="prose mb-12 max-w-none">
+    <Content />
+  </article>
+  <AudioPlayer audio={entry.data.audio} />
+  <CopyMdButton rawBody={rawBody} canonicalUrl={canonicalUrl} />
+  <PostLicense locale="zh-cn" />
+  <PostNavigation previous={adjacent.previous} next={adjacent.next} locale="zh-cn" />
+  <RelatedPosts posts={related} locale="zh-cn" />
+</BaseLayout>

@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../components/layout/BaseLayout.astro';
+import EntryList from '../../../components/content/EntryList.astro';
+import PageHeader from '../../../components/content/PageHeader.astro';
+import { locales, type Locale } from '../../../config/i18n';
+import { getLocalizedEntries, seriesPosts, entrySlug } from '../../../lib/content/entries';
+
+export async function getStaticPaths() {
+  const paths = [];
+  for (const locale of locales.filter((item) => item !== 'en')) {
+    const series = await getLocalizedEntries('series', locale);
+    const posts = await getLocalizedEntries('posts', locale);
+    paths.push(...series.map((entry) => ({
+      params: { locale, series: entrySlug(entry as any) },
+      props: { locale, seriesEntry: entry, posts: seriesPosts(posts, entrySlug(entry as any)) }
+    })));
+  }
+  return paths;
+}
+
+const { locale, seriesEntry, posts } = Astro.props as any as { locale: Locale; seriesEntry: any; posts: any[] };
+---
+
+<BaseLayout title={seriesEntry.data.title} description={seriesEntry.data.description} locale={locale}>
+  <PageHeader title={seriesEntry.data.title} description={seriesEntry.data.description} locale={locale} />
+  <EntryList entries={posts} collection="posts" locale={locale} />
+</BaseLayout>

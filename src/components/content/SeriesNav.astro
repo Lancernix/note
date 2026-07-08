@@ -1,0 +1,115 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { CollectionEntry } from 'astro:content';
+import type { Locale } from '../../config/i18n';
+import { localizedEntryPath } from '../../lib/content/entries';
+import { useTranslations } from '../../i18n/utils';
+
+interface SeriesGroup {
+  seriesEntry: CollectionEntry<'series'>;
+  posts: CollectionEntry<'posts'>[];
+}
+
+interface Props {
+  groups: SeriesGroup[];
+  current: CollectionEntry<'posts'>;
+  locale: Locale;
+}
+
+const { groups, current, locale } = Astro.props;
+const t = useTranslations(locale);
+const groupId = `series-nav-${current.id.replace(/[^a-zA-Z0-9]+/g, '-')}`;
+---
+
+{groups.length === 1 && (
+  <div class="text-sm">
+    <a href={localizedEntryPath('series', groups[0].seriesEntry as any)} class="flex items-center gap-1.5 font-semibold text-foreground transition-colors hover:text-primary">
+      <Icon name="lucide:bookmark" class="h-3.5 w-3.5" />
+      {groups[0].seriesEntry.data.title}
+    </a>
+    <ol class="mt-2 max-h-32 space-y-1 overflow-y-auto">
+      {groups[0].posts.map((post, index) => {
+        const isCurrent = post.id === current.id;
+        return (
+          <li>
+            <a
+              href={localizedEntryPath('posts', post as any)}
+              aria-current={isCurrent ? 'page' : undefined}
+              class:list={[
+                'flex items-center gap-2 rounded-md px-2 py-1 transition-colors',
+                isCurrent ? 'bg-primary/15 font-medium text-primary' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+              ]}
+            >
+              <span class="shrink-0 font-mono opacity-60">{String(index + 1).padStart(2, '0')}</span>
+              <span class="truncate">{post.data.title}</span>
+            </a>
+          </li>
+        );
+      })}
+    </ol>
+  </div>
+)}
+
+{groups.length > 1 && (
+  <div class="markdown-tabs not-prose text-sm" data-tabs id={groupId}>
+    <div class="tabs-nav-shell">
+      <div class="tabs-nav" role="tablist" aria-label={t('series.title')}>
+        {groups.map((group, index) => {
+          const currentIndex = group.posts.findIndex((post) => post.id === current.id);
+          const tabId = `${groupId}-tab-${index}`;
+          const panelId = `${groupId}-panel-${index}`;
+          return (
+            <button
+              class="tabs-trigger flex items-center gap-1.5"
+              type="button"
+              role="tab"
+              id={tabId}
+              aria-selected={index === 0 ? 'true' : 'false'}
+              aria-controls={panelId}
+              tabindex={index === 0 ? 0 : -1}
+            >
+              <Icon name="lucide:bookmark" class="h-3 w-3" />
+              {group.seriesEntry.data.title}
+              <span class="rounded-full bg-primary/10 px-1.5 py-0.5 text-xs font-bold text-primary">
+                {currentIndex + 1}/{group.posts.length}
+              </span>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+    <div class="tabs-panels !p-2">
+      {groups.map((group, index) => (
+        <section
+          class="tabs-panel"
+          role="tabpanel"
+          id={`${groupId}-panel-${index}`}
+          aria-labelledby={`${groupId}-tab-${index}`}
+          data-tabs-panel
+          hidden={index !== 0}
+        >
+          <ol class="max-h-32 space-y-1 overflow-y-auto">
+            {group.posts.map((post, postIndex) => {
+              const isCurrent = post.id === current.id;
+              return (
+                <li>
+                  <a
+                    href={localizedEntryPath('posts', post as any)}
+                    aria-current={isCurrent ? 'page' : undefined}
+                    class:list={[
+                      'flex items-center gap-2 rounded-md px-2 py-1 transition-colors',
+                      isCurrent ? 'bg-primary/15 font-medium text-primary' : 'text-muted-foreground hover:bg-muted/50 hover:text-foreground'
+                    ]}
+                  >
+                    <span class="shrink-0 font-mono opacity-60">{String(postIndex + 1).padStart(2, '0')}</span>
+                    <span class="truncate">{post.data.title}</span>
+                  </a>
+                </li>
+              );
+            })}
+          </ol>
+        </section>
+      ))}
+    </div>
+  </div>
+)}

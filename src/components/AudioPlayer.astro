@@ -1,0 +1,71 @@
+---
+interface Props {
+  audio?: string;
+}
+const { audio } = Astro.props;
+---
+
+{audio && (
+  <div class="surface-card my-6 flex flex-wrap items-center gap-3 px-4 py-3" data-audio-player>
+    <button
+      type="button"
+      class="audio-toggle inline-flex h-11 w-11 items-center justify-center rounded-[var(--radius-control)] bg-primary text-primary-foreground"
+      aria-label="播放/暂停"
+    >
+      <span class="audio-icon" aria-hidden="true">▶</span>
+    </button>
+    <span class="audio-time text-sm tabular-nums text-muted-foreground">0:00 / 0:00</span>
+    <input
+      type="range"
+      class="audio-progress flex-1 min-w-[120px]"
+      min="0"
+      max="100"
+      value="0"
+      aria-label="播放进度"
+    />
+    <label class="audio-rate-wrap flex items-center gap-1 text-sm text-muted-foreground">
+      倍速
+      <select class="audio-rate rounded-[var(--radius-control)] bg-muted px-2 py-1" aria-label="倍速">
+        <option value="0.75">0.75×</option>
+        <option value="1" selected>1×</option>
+        <option value="1.25">1.25×</option>
+        <option value="1.5">1.5×</option>
+        <option value="2">2×</option>
+      </select>
+    </label>
+    <audio class="audio-el" src={audio} preload="none"></audio>
+  </div>
+)}
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-audio-player]').forEach((root) => {
+    const btn = root.querySelector<HTMLButtonElement>('.audio-toggle')!;
+    const icon = root.querySelector<HTMLElement>('.audio-icon')!;
+    const time = root.querySelector<HTMLElement>('.audio-time')!;
+    const progress = root.querySelector<HTMLInputElement>('.audio-progress')!;
+    const rate = root.querySelector<HTMLSelectElement>('.audio-rate')!;
+    const audio = root.querySelector<HTMLAudioElement>('.audio-el')!;
+
+    const fmt = (s: number) => {
+      if (!isFinite(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60).toString().padStart(2, '0');
+      return `${m}:${sec}`;
+    };
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) audio.play(); else audio.pause();
+    });
+    audio.addEventListener('play', () => (icon.textContent = '❚❚'));
+    audio.addEventListener('pause', () => (icon.textContent = '▶'));
+    audio.addEventListener('loadedmetadata', () => (time.textContent = `0:00 / ${fmt(audio.duration)}`));
+    audio.addEventListener('timeupdate', () => {
+      time.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+      if (audio.duration) progress.value = String((audio.currentTime / audio.duration) * 100);
+    });
+    progress.addEventListener('input', () => {
+      if (audio.duration) audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+    });
+    rate.addEventListener('change', () => (audio.playbackRate = Number(rate.value)));
+  });
+</script>

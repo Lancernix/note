@@ -1,0 +1,46 @@
+---
+interface Props {
+  rawBody: string;
+  canonicalUrl: string;
+}
+const { rawBody, canonicalUrl } = Astro.props;
+const source = `${rawBody.trimEnd()}\n\n> 原文：${canonicalUrl}\n`;
+---
+
+<button
+  type="button"
+  class="copy-md-btn inline-flex h-11 items-center gap-2 rounded-[var(--radius-control)] border border-border bg-muted px-3 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+  data-raw={source}
+>
+  <span class="copy-label">复制为 Markdown</span>
+</button>
+<div class="copy-toast sr-only" role="status" aria-live="polite"></div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.copy-md-btn').forEach((btn) => {
+    const toast = btn.parentElement?.querySelector<HTMLElement>('.copy-toast');
+    const label = btn.querySelector<HTMLElement>('.copy-label')!;
+    btn.addEventListener('click', async () => {
+      const text = btn.dataset.raw || '';
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          ta.remove();
+        }
+        if (toast) { toast.textContent = '已复制'; toast.classList.remove('sr-only'); setTimeout(() => toast.classList.add('sr-only'), 4000); }
+        label.textContent = '已复制 ✓';
+        setTimeout(() => (label.textContent = '复制为 Markdown'), 2000);
+      } catch {
+        if (toast) { toast.textContent = '复制失败'; toast.classList.remove('sr-only'); setTimeout(() => toast.classList.add('sr-only'), 4000); }
+      }
+    });
+  });
+</script>
