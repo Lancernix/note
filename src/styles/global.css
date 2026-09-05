@@ -74,8 +74,12 @@ select {
   font: inherit;
 }
 
-a {
-  color: inherit;
+/* In @layer base so link color utilities (text-accent-foreground etc.) in the
+   utilities layer can override it — unlayered rules would always win. */
+@layer base {
+  a {
+    color: inherit;
+  }
 }
 
 .surface-card {
