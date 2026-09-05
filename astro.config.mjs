@@ -39,6 +39,10 @@ export default defineConfig({
     })
   },
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    build: {
+      // mermaid 懒加载 chunk（约 650kB）超过默认 500kB 阈值；仅含图表的页面才会下载，不影响首屏
+      chunkSizeWarningLimit: 1500
+    }
   }
 });
