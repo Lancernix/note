@@ -584,8 +584,8 @@
   --color-primary-foreground: #ffffff;
   --color-secondary: oklch(0.96 0 0);
   --color-secondary-foreground: oklch(0.205 0 0);
-  --color-accent: #158351;
-  --color-accent-foreground: #ffffff;
+  --color-accent: #61c993;
+  --color-accent-foreground: #0d3d28;
   --color-background: oklch(0.99 0 0);
   --color-foreground: oklch(0.205 0 0);
   --color-muted: oklch(0.96 0 0);
@@ -607,7 +607,7 @@
   --color-primary-foreground: #0d3d28;
   --color-secondary: oklch(0.27 0 0);
   --color-secondary-foreground: oklch(0.985 0 0);
-  --color-accent: #53c489;
+  --color-accent: #61c993;
   --color-accent-foreground: #0d3d28;
   --color-background: oklch(0.205 0 0);
   --color-foreground: oklch(0.92 0 0);
