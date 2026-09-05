@@ -28,7 +28,7 @@ const groups = posts.reduce<Record<string, Array<CollectionEntry<'posts'>>>>((ac
         <h2 class="text-2xl font-semibold">{year}</h2>
         <div class="surface-panel mt-4 divide-y divide-border overflow-hidden">
           {entries.map((entry) => (
-            <a href={localizedEntryPath('posts', entry as any)} class="grid gap-1 p-4 transition hover:bg-accent sm:grid-cols-[9rem_1fr] sm:items-center">
+            <a href={localizedEntryPath('posts', entry as any)} class="grid gap-1 p-4 transition hover:bg-accent/10 sm:grid-cols-[9rem_1fr] sm:items-center">
               <time class="text-sm text-muted-foreground">{formatDate(entry.data.pubDate, locale)}</time>
               <div>
                 <h3 class="font-medium">{entry.data.title}</h3>

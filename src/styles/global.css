@@ -522,7 +522,7 @@ a {
 #toc-center-dropdown a.toc-active,
 #toc-side-dropdown a.toc-active {
   background: var(--color-accent);
-  color: var(--color-primary);
+  color: var(--color-accent-foreground);
   font-weight: 500;
 }
 

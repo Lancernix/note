@@ -18,13 +18,13 @@ const t = useTranslations(locale);
 {(previous || next) && (
   <nav class="mt-12 grid gap-3 border-t border-border pt-8 sm:grid-cols-2" aria-label="Post navigation">
     {previous ? (
-      <a href={localizedEntryPath('posts', previous as any)} class="rounded-lg border border-border p-4 hover:bg-accent">
+      <a href={localizedEntryPath('posts', previous as any)} class="rounded-lg border border-border p-4 hover:bg-accent/10">
         <span class="flex items-center gap-2 text-sm text-muted-foreground"><Icon name="lucide:arrow-left" class="h-4 w-4" /> {t('postNav.previous')}</span>
         <strong class="mt-2 block">{previous.data.title}</strong>
       </a>
     ) : <span></span>}
     {next && (
-      <a href={localizedEntryPath('posts', next as any)} class="rounded-lg border border-border p-4 text-right hover:bg-accent">
+      <a href={localizedEntryPath('posts', next as any)} class="rounded-lg border border-border p-4 text-right hover:bg-accent/10">
         <span class="flex items-center justify-end gap-2 text-sm text-muted-foreground">{t('postNav.next')} <Icon name="lucide:arrow-right" class="h-4 w-4" /></span>
         <strong class="mt-2 block">{next.data.title}</strong>
       </a>

@@ -41,7 +41,7 @@ const indent = (depth: number) => `padding-left: ${(depth - 2) * 0.85 + 0.5}rem`
           <a
             href={`#${heading.slug}`}
             data-toc-link
-            class="block truncate rounded-[var(--radius-control)] px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            class="block truncate rounded-[var(--radius-control)] px-2 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground"
             style={indent(heading.depth)}
           >
             {heading.text}
@@ -60,7 +60,7 @@ const indent = (depth: number) => `padding-left: ${(depth - 2) * 0.85 + 0.5}rem`
       </div>
       <nav id="toc-side-dropdown" class="absolute right-0 top-0 hidden max-h-[70vh] w-64 overflow-auto rounded-[var(--radius-panel)] border border-border bg-popover p-2 text-sm shadow-xl group-hover:block">
         {filtered.map((heading) => (
-          <a href={`#${heading.slug}`} data-toc-link class="block rounded-[var(--radius-control)] px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground" style={indent(heading.depth)}>
+          <a href={`#${heading.slug}`} data-toc-link class="block rounded-[var(--radius-control)] px-2 py-1.5 text-muted-foreground transition-colors hover:bg-accent/10 hover:text-foreground" style={indent(heading.depth)}>
             {heading.text}
           </a>
         ))}
