@@ -7,7 +7,9 @@
 /* Utility classes emitted by the rehype image plugin live in .mjs files. */
 @source "../lib/markdown";
 
-@theme {
+/* inline: colors resolve from the runtime theme blocks in themes.css, so
+   opacity modifiers (bg-accent/10) can wrap them in color-mix. */
+@theme inline {
   --color-background: var(--color-background);
   --color-foreground: var(--color-foreground);
   --color-card: var(--color-card);
@@ -26,6 +28,9 @@
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
+}
+
+@theme {
   --font-sans: "Inter", "Noto Sans SC", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
