@@ -57,18 +57,20 @@ const currentPath = Astro.url.pathname;
     <Icon name="lucide:sun-moon" class="h-4 w-4" />
   </button>
 
-  <div class="relative z-10">
-    <button type="button" data-lang-menu class="dock-control grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.language} title={labels.language}>
-      <Icon name="lucide:languages" class="h-4 w-4" />
-    </button>
-    <div data-lang-panel class="absolute bottom-full left-1/2 mb-2 hidden w-36 -translate-x-1/2 rounded-[var(--radius-panel)] border border-border bg-popover p-1 text-sm shadow-xl">
-      {locales.map((item) => (
-        <a href={switchLocalePath(item, currentPath)} class="block rounded px-2 py-1.5 hover:bg-accent" aria-current={item === locale ? 'page' : undefined}>
-          {localeMeta[item].label}
-        </a>
-      ))}
+  {locales.length > 1 && (
+    <div class="relative z-10">
+      <button type="button" data-lang-menu class="dock-control grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.language} title={labels.language}>
+        <Icon name="lucide:languages" class="h-4 w-4" />
+      </button>
+      <div data-lang-panel class="absolute bottom-full left-1/2 mb-2 hidden w-36 -translate-x-1/2 rounded-[var(--radius-panel)] border border-border bg-popover p-1 text-sm shadow-xl">
+        {locales.map((item) => (
+          <a href={switchLocalePath(item, currentPath)} class="block rounded px-2 py-1.5 hover:bg-accent" aria-current={item === locale ? 'page' : undefined}>
+            {localeMeta[item].label}
+          </a>
+        ))}
+      </div>
     </div>
-  </div>
+  )}
 
   <button type="button" data-back-top class="dock-control grid h-10 w-10 place-items-center rounded-xl text-muted-foreground transition hover:bg-accent hover:text-accent-foreground" aria-label={labels.top} title={labels.top}>
     <Icon name="lucide:arrow-up" class="h-4 w-4" />

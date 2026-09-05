@@ -11,8 +11,8 @@
 
 ## 技术栈
 
-- 包管理器：`pnpm`
-- Node：`>=22.12.0`
+- 包管理器：`pnpm` 11（`package.json` 的 `packageManager` 锁定）
+- Node：24（根目录 `mise.toml` 锁定，用 mise 管理运行时）
 - 框架：Astro 7
 - 样式：Tailwind CSS 4 + `src/styles/global.css` + `src/styles/themes.css`
 - 图标：`astro-icon`，优先使用 `lucide:*`；品牌图标使用 `simple-icons:*`
@@ -63,7 +63,7 @@ ASTRO_SITE=https://<user>.github.io ASTRO_BASE=/astro-narrow/ pnpm build
 
 ## 路由和链接规则
 
-- 默认语言是 `en`，不带 `/en/` 前缀；示例第二语言是 `zh-cn`，路径带 `/zh-cn/`。
+- 本仓库默认语言是 `zh-cn`，不带前缀；英文（`en`，`/en/` 前缀）当前未启用——`locales` 只有 `zh-cn`，恢复英文时在 `src/config/i18n.ts` 与 `astro.config.mjs` 加回 `'en'` 并补内容（git 历史有英文文案与 localeMeta）。路由中的 locale 一律引用 `src/config/i18n.ts` 的 `defaultLocale`，不要硬编码语言字符串。
 - 生成内部链接时使用 `getLocalePath(locale, path)`，不要手写根路径绝对链接。
 - GitHub Pages 项目页会设置 `ASTRO_BASE`。任何 `href="/..."` 都可能绕过 base，除非它确实是外部或根域需求。
 - 语言切换路径使用 `switchLocalePath`，不要在组件里自行切分 base 和 locale。

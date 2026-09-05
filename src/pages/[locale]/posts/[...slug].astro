@@ -7,7 +7,7 @@ import PostLicense from '../../../components/content/PostLicense.astro';
 import PostNavigation from '../../../components/content/PostNavigation.astro';
 import RelatedPosts from '../../../components/content/RelatedPosts.astro';
 import { contentTypes } from '../../../config/content';
-import { getLocalePath, locales, type Locale } from '../../../config/i18n';
+import { defaultLocale, getLocalePath, locales, type Locale } from '../../../config/i18n';
 import { siteConfig } from '../../../config/site';
 import { adjacentEntries, getLocalizedEntries, entrySlug, relatedPosts, seriesPosts } from '../../../lib/content/entries';
 import AudioPlayer from '../../../components/AudioPlayer.astro';
@@ -15,7 +15,7 @@ import CopyMdButton from '../../../components/CopyMdButton.astro';
 
 export async function getStaticPaths() {
   const paths = [];
-  for (const locale of locales.filter((item) => item !== 'en')) {
+  for (const locale of locales.filter((item) => item !== defaultLocale)) {
     const posts = await getLocalizedEntries('posts', locale);
     paths.push(...posts.map((entry) => ({ params: { locale, slug: entrySlug(entry as any) }, props: { entry, locale } })));
   }
@@ -36,14 +36,14 @@ const seriesGroups = (entry.data.series ?? [])
   })
   .filter((group: unknown): group is { seriesEntry: any; posts: any[] } => Boolean(group));
 
-const siteUrl = process.env.ASTRO_SITE || 'https://note.lancernix.space';
+const siteUrl = import.meta.env.SITE;
 const canonicalUrl = `${siteUrl}${getLocalePath(locale, `/posts/${entrySlug(entry)}/`)}`;
 const fm = [
   '---',
   `title: ${JSON.stringify(entry.data.title)}`,
   entry.data.pubDate ? `date: ${entry.data.pubDate.toISOString().slice(0, 10)}` : '',
   entry.data.description ? `description: ${JSON.stringify(entry.data.description)}` : '',
-  `tags: [${entry.data.tags.map((t) => JSON.stringify(t)).join(', ')}]`,
+  `tags: [${entry.data.tags.map((t: string) => JSON.stringify(t)).join(', ')}]`,
   `lang: ${locale}`,
   '---'
 ].filter(Boolean).join('\n');

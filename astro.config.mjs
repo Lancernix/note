@@ -16,7 +16,7 @@ import { rehypeAlerts } from './src/lib/markdown/rehype-alerts.mjs';
 import { rehypeImageGroups } from './src/lib/markdown/rehype-image-groups.mjs';
 import { rehypeMermaid } from './src/lib/markdown/rehype-mermaid.mjs';
 
-const site = process.env.ASTRO_SITE || 'https://note.lancernix.space';
+const site = process.env.ASTRO_SITE || 'https://blog.lancernix.space';
 const base = process.env.ASTRO_BASE;
 
 // https://astro.build/config
@@ -24,7 +24,7 @@ export default defineConfig({
   site,
   ...(base ? { base } : {}),
   i18n: {
-    locales: ['en', 'zh-cn'],
+    locales: ['zh-cn'],
     defaultLocale: 'zh-cn',
     routing: {
       prefixDefaultLocale: false,

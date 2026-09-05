@@ -2,10 +2,11 @@
 import BaseLayout from '../../components/layout/BaseLayout.astro';
 import EntryList from '../../components/content/EntryList.astro';
 import PageHeader from '../../components/content/PageHeader.astro';
+import { defaultLocale } from '../../config/i18n';
 import { getLocalizedEntries } from '../../lib/content/entries';
 import { useTranslations } from '../../i18n/utils';
 
-const locale = 'zh-cn';
+const locale = defaultLocale;
 const posts = await getLocalizedEntries('posts', locale);
 const t = useTranslations(locale);
 ---

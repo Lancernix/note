@@ -6,15 +6,14 @@ export const siteConfig = {
   description: '峰哥的个人网站：写作、项目与随笔。',
   author: {
     name: '峰哥',
-    title: { en: 'Lancernix', 'zh-cn': '峰哥' },
+    title: { 'zh-cn': '峰哥' },
     description: {
-      en: 'Personal site of Lancernix.',
       'zh-cn': '写代码、做项目、记随笔。'
     },
     avatar: '/avatar.svg',
     social: [
       { name: 'GitHub', url: 'https://github.com/Lancernix', icon: 'lucide:github' },
-      { name: 'Email', url: 'mailto:you@example.com', icon: 'lucide:mail' }
+      { name: 'Email', url: 'mailto:lancernix@gmail.com', icon: 'lucide:mail' }
     ]
   },
   contentWidth: '48rem',
@@ -26,16 +25,16 @@ export const siteConfig = {
       enabled: true
     }
   },
-  nav: ['posts', 'projects', 'archives', 'tags', { label: { en: 'About', 'zh-cn': '关于' }, href: '/zh-cn/about/', icon: 'lucide:user' }],
-  footerNav: ['archives', 'tags', { label: { en: 'About', 'zh-cn': '关于' }, href: '/zh-cn/about/', icon: 'lucide:user' }],
+  nav: ['posts', 'projects', 'archives', 'tags', { label: { 'zh-cn': '关于' }, href: '/about/', icon: 'lucide:user' }],
+  footerNav: ['archives', 'tags', { label: { 'zh-cn': '关于' }, href: '/about/', icon: 'lucide:user' }],
   comments: {
     enabled: true,
     provider: 'giscus',
     giscus: {
       repo: 'Lancernix/note',
-      repoId: 'YOUR_REPO_ID',
+      repoId: 'R_kgDOTQRMYQ',
       category: 'Announcements',
-      categoryId: 'YOUR_CATEGORY_ID',
+      categoryId: 'DIC_kwDOTQRMYc4DArpB',
       mapping: 'pathname',
       strict: '0',
       reactionsEnabled: '1',

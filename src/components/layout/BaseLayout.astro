@@ -1,6 +1,6 @@
 ---
 import '../../styles/global.css';
-import { localeMeta, type Locale } from '../../config/i18n';
+import { defaultLocale, localeMeta, type Locale } from '../../config/i18n';
 import { siteConfig } from '../../config/site';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
@@ -28,7 +28,7 @@ interface Props {
 const {
   title = siteConfig.name,
   description = siteConfig.description,
-  locale = 'en',
+  locale = defaultLocale,
   headings = [],
   toc = false,
   comments = false
@@ -36,6 +36,8 @@ const {
 
 const pageTitle = title === siteConfig.name ? title : `${title} | ${siteConfig.name}`;
 const htmlLang = localeMeta[locale].htmlLang;
+const isNotFound = Astro.url.pathname.startsWith('/404');
+const canonicalUrl = Astro.site && !isNotFound ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const assetBase = import.meta.env.BASE_URL || '/';
 const faviconSvg = `${assetBase.replace(/\/?$/, '/')}favicon.svg`;
 const faviconIco = `${assetBase.replace(/\/?$/, '/')}favicon.ico`;
@@ -61,6 +63,7 @@ const themeInit = `
     <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href={faviconSvg} />
     <link rel="icon" href={faviconIco} />
+    {canonicalUrl && <link rel="canonical" href={canonicalUrl} />}
     <title>{pageTitle}</title>
     <script is:inline set:html={themeInit}></script>
   </head>

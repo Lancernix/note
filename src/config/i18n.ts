@@ -1,14 +1,11 @@
 export const defaultLocale = 'zh-cn';
-export const locales = ['en', 'zh-cn'] as const;
+// 当前只有中文内容。启用英文时：把 'en' 加回这里和 astro.config.mjs 的 i18n.locales，
+// 在 src/content/*/en/ 补内容，并恢复 localeMeta / src/i18n/ui.ts 的英文段（git 历史里有）。
+export const locales = ['zh-cn'] as const;
 
 export type Locale = (typeof locales)[number];
 
 export const localeMeta: Record<Locale, { label: string; htmlLang: string; dateLocale: string }> = {
-  en: {
-    label: 'English',
-    htmlLang: 'en',
-    dateLocale: 'en'
-  },
   'zh-cn': {
     label: '简体中文',
     htmlLang: 'zh-CN',

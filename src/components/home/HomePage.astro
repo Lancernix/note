@@ -11,7 +11,7 @@ interface HomeSection {
   id: ContentTypeId;
   title: string;
   href: string;
-  entries: Array<CollectionEntry<any>>;
+  entries: Array<CollectionEntry<'posts'> | CollectionEntry<'projects'>>;
 }
 
 interface Props {

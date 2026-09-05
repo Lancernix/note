@@ -10,22 +10,22 @@ export type NavigationConfigItem = string | {
 
 const systemRoutes = {
   archives: {
-    label: { en: 'Archives', 'zh-cn': '归档' },
+    label: { 'zh-cn': '归档' },
     href: '/archives/',
     icon: 'lucide:archive'
   },
   tags: {
-    label: { en: 'Tags', 'zh-cn': '标签' },
+    label: { 'zh-cn': '标签' },
     href: '/tags/',
     icon: 'lucide:tags'
   },
   series: {
-    label: { en: 'Series', 'zh-cn': '系列' },
+    label: { 'zh-cn': '系列' },
     href: '/series/',
     icon: 'lucide:bookmark'
   },
   resume: {
-    label: { en: 'Resume', 'zh-cn': '简历' },
+    label: { 'zh-cn': '简历' },
     href: '/resume/',
     icon: 'lucide:file-text'
   }

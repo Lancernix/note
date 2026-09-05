@@ -9,7 +9,7 @@ const baseSchema = z.object({
   draft: z.boolean().default(false),
   cover: z.string().optional(),
   tags: z.array(z.string()).default([]),
-  lang: z.enum(['en', 'zh-cn']).optional(),
+  lang: z.enum(['zh-cn']).optional(),
   toc: z.union([z.boolean(), z.enum(['center', 'side'])]).optional(),
   comments: z.boolean().optional(),
   math: z.boolean().optional(),
@@ -24,7 +24,8 @@ const posts = defineCollection({
     pubDate: z.coerce.date(),
     series: z.array(z.string()).optional(),
     seriesOrder: z.number().optional(),
-    audio: z.string().url().optional()
+    audio: z.string().url().optional(),
+    comments: z.boolean().default(true)
   })
 });
 

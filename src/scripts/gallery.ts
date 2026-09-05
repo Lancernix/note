@@ -1,4 +1,4 @@
-import SmartGallery from 'smart-gallery/dist/smart-gallery.esm.min.js';
+import SmartGallery from 'smart-gallery';
 import { siteConfig } from '../config/site';
 
 type LightboxItem = { src: string; alt: string; caption: string };
@@ -130,7 +130,6 @@ function createInstance(host: HTMLElement, layout: Layout, items: LayoutItem[], 
     onItemClick: ({ index }: { index: number }) => openLightbox(galleryId, index)
   });
   instance.addItems(items);
-  instance.render();
   return instance;
 }
 
@@ -187,7 +186,7 @@ async function setupGallery(gallery: HTMLElement, groupIndex: number) {
   gallery.innerHTML = '';
   gallery.appendChild(switcher);
   gallery.appendChild(host);
-  // Host must be in the DOM before render() so SmartGallery measures its width.
+  // Host must be in the DOM before addItems() so SmartGallery measures its width.
   instance = createInstance(host, layout, items, galleryId);
 }
 

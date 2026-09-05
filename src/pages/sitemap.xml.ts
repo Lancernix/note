@@ -1,6 +1,5 @@
 import { getCollection } from 'astro:content';
-import { locales } from '../config/i18n';
-import { getLocalePath } from '../config/i18n';
+import { defaultLocale, getLocalePath, locales } from '../config/i18n';
 import { localizedEntryPath, uniqueTerms } from '../lib/content/entries';
 
 function escapeXml(value: string) {
@@ -26,8 +25,8 @@ export async function GET({ site, url }: { site?: URL; url: URL }) {
   const projectPaths = projects.map((entry) => localizedEntryPath('projects', entry as any));
   const pagePaths = pages.map((entry) => localizedEntryPath('pages', entry as any));
   const taxonomyPaths = locales.flatMap((locale) => {
-    const localizedPosts = posts.filter((entry) => localizedEntryPath('posts', entry as any).startsWith(locale === 'en' ? '/posts/' : `/${locale}/posts/`)) as any;
-    const prefix = locale === 'en' ? '' : `/${locale}`;
+    const prefix = locale === defaultLocale ? '' : `/${locale}`;
+    const localizedPosts = posts.filter((entry) => localizedEntryPath('posts', entry as any).startsWith(`${prefix}/posts/`)) as any;
     return uniqueTerms(localizedPosts, 'tags').map((term) => `${prefix}/tags/${term.slug}/`);
   });
 

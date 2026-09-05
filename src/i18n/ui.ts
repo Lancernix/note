@@ -1,56 +1,12 @@
 import type { Locale } from '../config/i18n';
 
 export const languages: Record<Locale, string> = {
-  en: 'English',
   'zh-cn': '简体中文'
 };
 
-export const defaultLang: Locale = 'en';
+export const defaultLang: Locale = 'zh-cn';
 
 export const ui = {
-  en: {
-    'archive.description': 'All posts ordered by publication date.',
-    'archive.title': 'Archives',
-    'dock.back': 'Back',
-    'dock.home': 'Home',
-    'dock.top': 'Back to top',
-    'home.featuredProjects': 'Featured Projects',
-    'home.recentPosts': 'Recent Posts',
-    'home.viewAll': 'View all',
-    'license.label': 'License',
-    'nav.colorMode': 'Toggle color mode',
-    'nav.language': 'Language',
-    'nav.menu': 'Menu',
-    'nav.search': 'Search',
-    'nav.theme': 'Theme',
-    'notFound.action': 'Back home',
-    'notFound.description': 'The page you are looking for does not exist.',
-    'notFound.title': 'Page not found',
-    'posts.description': 'Notes, essays, and technical writing.',
-    'posts.title': 'Posts',
-    'postNav.next': 'Next',
-    'postNav.previous': 'Previous',
-    'projects.description': 'Selected projects, experiments, and work notes.',
-    'projects.title': 'Projects',
-    'related.title': 'Related Posts',
-    'series.description': 'Follow post series to read related articles in a structured sequence.',
-    'series.title': 'Series',
-    'resume.experience': 'Experience',
-    'resume.education': 'Education',
-    'resume.skills': 'Skills',
-    'resume.certifications': 'Certifications',
-    'resume.languages': 'Languages',
-    'taxonomy.count': 'posts',
-    'taxonomy.tagPrefix': 'Tag',
-    'taxonomy.tagsDescription': 'Browse posts by tag.',
-    'taxonomy.tagsTitle': 'Tags',
-    'search.close': 'Close search',
-    'search.empty': 'Type to start searching',
-    'search.label': 'Search',
-    'search.loading': 'Loading index',
-    'search.noResults': 'No results found',
-    'search.placeholder': 'Search content'
-  },
   'zh-cn': {
     'archive.description': '按发布日期排列的全部文章。',
     'archive.title': '归档',

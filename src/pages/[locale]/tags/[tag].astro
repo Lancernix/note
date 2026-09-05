@@ -2,13 +2,13 @@
 import BaseLayout from '../../../components/layout/BaseLayout.astro';
 import EntryList from '../../../components/content/EntryList.astro';
 import PageHeader from '../../../components/content/PageHeader.astro';
-import { locales, type Locale } from '../../../config/i18n';
+import { defaultLocale, locales, type Locale } from '../../../config/i18n';
 import { getLocalizedEntries, slugTerm, uniqueTerms } from '../../../lib/content/entries';
 import { useTranslations } from '../../../i18n/utils';
 
 export async function getStaticPaths() {
   const paths = [];
-  for (const locale of locales.filter((item) => item !== 'en')) {
+  for (const locale of locales.filter((item) => item !== defaultLocale)) {
     const posts = await getLocalizedEntries('posts', locale);
     paths.push(...uniqueTerms(posts, 'tags').map((term) => ({ params: { locale, tag: term.slug }, props: { locale, term, posts: posts.filter((entry) => entry.data.tags?.some((tag) => slugTerm(tag) === term.slug)) } })));
   }

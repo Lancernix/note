@@ -1,0 +1,5 @@
+#:schema https://mise.link/schema.toml
+# 与 package.json 的 engines / packageManager 保持一致
+[tools]
+node = "24"
+pnpm = "11"
